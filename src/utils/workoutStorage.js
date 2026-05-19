@@ -27,6 +27,22 @@ export function deleteWorkout(id) {
   return saveWorkouts(list)
 }
 
+export function updateWorkout(id, workout) {
+  const list = loadWorkouts()
+  const index = list.findIndex((w) => w.id === id)
+  if (index === -1) return false
+
+  const updated = {
+    ...list[index],
+    ...workout,
+    id,
+    createdAt: list[index].createdAt,
+  }
+  const next = [...list]
+  next[index] = updated
+  return saveWorkouts(next)
+}
+
 export function sortWorkoutsByDate(workouts) {
   return [...workouts].sort((a, b) => {
     const dateDiff = new Date(b.date) - new Date(a.date)

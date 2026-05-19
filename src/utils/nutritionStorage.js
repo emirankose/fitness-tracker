@@ -22,6 +22,27 @@ export function addMeal(meal) {
   return entry
 }
 
+export function deleteMeal(id) {
+  const list = loadMeals().filter((m) => m.id !== id)
+  return saveMeals(list)
+}
+
+export function updateMeal(id, meal) {
+  const list = loadMeals()
+  const index = list.findIndex((m) => m.id === id)
+  if (index === -1) return false
+
+  const updated = {
+    ...list[index],
+    ...meal,
+    id,
+    createdAt: list[index].createdAt,
+  }
+  const next = [...list]
+  next[index] = updated
+  return saveMeals(next)
+}
+
 export function sortMealsByDate(meals) {
   return [...meals].sort((a, b) => {
     const dateDiff = new Date(b.date) - new Date(a.date)

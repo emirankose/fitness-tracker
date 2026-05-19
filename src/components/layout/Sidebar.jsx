@@ -15,7 +15,7 @@ function Sidebar({ isOpen, isHidden, showBackdrop, onClose }) {
           </span>
           <div>
             <strong>FitTrack</strong>
-            <span>Pro Dashboard</span>
+            <span>Fitness Paneli</span>
           </div>
         </div>
 

@@ -78,7 +78,7 @@ function Profile() {
   return (
     <div className="profile-page">
       <header className="profile-page__header">
-        <h1>Profile</h1>
+        <h1>Profil</h1>
         <p>Kişisel bilgilerinizi ve hedeflerinizi yönetin.</p>
       </header>
 

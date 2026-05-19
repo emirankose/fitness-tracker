@@ -12,7 +12,7 @@ function formatDate(dateStr) {
   }
 }
 
-function NutritionList({ meals }) {
+function NutritionList({ meals, onDelete, onEdit, editingId }) {
   if (meals.length === 0) {
     return <p className="nutrition-list__empty">Henüz öğün eklenmedi</p>
   }
@@ -20,7 +20,10 @@ function NutritionList({ meals }) {
   return (
     <ul className="nutrition-list">
       {meals.map((meal) => (
-        <li key={meal.id} className="nutrition-card">
+        <li
+          key={meal.id}
+          className={`nutrition-card${editingId === meal.id ? ' nutrition-card--editing' : ''}`}
+        >
           <div className="nutrition-card__header">
             <h3>{getMealLabel(meal.mealType)}</h3>
             <time dateTime={meal.date}>{formatDate(meal.date)}</time>
@@ -42,6 +45,18 @@ function NutritionList({ meals }) {
               <span>Yağ</span>
               <strong>{meal.fat} g</strong>
             </div>
+          </div>
+          <div className="nutrition-card__actions">
+            <button type="button" className="nutrition-card__edit" onClick={() => onEdit(meal)}>
+              Düzenle
+            </button>
+            <button
+              type="button"
+              className="nutrition-card__delete"
+              onClick={() => onDelete(meal.id, getMealLabel(meal.mealType))}
+            >
+              Sil
+            </button>
           </div>
         </li>
       ))}

@@ -143,6 +143,41 @@
   gap: 1rem 1.25rem;
 }
 
+.nutrition-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  align-items: center;
+}
+
+.nutrition-form__actions .nutrition-form__submit {
+  margin-top: 0;
+  width: auto;
+  flex: 1;
+  min-width: 10rem;
+}
+
+.nutrition-form__cancel {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.nutrition-form__cancel:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-elevated);
+}
+
 .nutrition-form__submit {
   margin-top: 1.25rem;
   width: 100%;
@@ -297,6 +332,58 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-muted);
+}
+
+.nutrition-card--editing {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+
+.nutrition-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.nutrition-card__edit {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.nutrition-card__edit:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-elevated);
+}
+
+.nutrition-card__delete {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: var(--radius-sm);
+  background: rgba(248, 113, 113, 0.08);
+  color: #f87171;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.nutrition-card__delete:hover {
+  background: rgba(248, 113, 113, 0.15);
+  border-color: rgba(248, 113, 113, 0.6);
 }
 
 .nutrition-card__macros strong {

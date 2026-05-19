@@ -29,7 +29,7 @@ function LastWorkoutCard({ workout }) {
           </div>
         </dl>
       ) : (
-        <p className="dashboard-empty">Henüz antrenman kaydı yok. Workouts sayfasından ekleyin.</p>
+        <p className="dashboard-empty">Henüz antrenman kaydı yok. Antrenmanlar sayfasından ekleyin.</p>
       )}
     </DashboardCard>
   )

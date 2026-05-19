@@ -56,6 +56,39 @@
   grid-column: 1 / -1;
 }
 
+.workout-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: center;
+}
+
+.workout-form__cancel {
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.workout-form__cancel:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-elevated);
+}
+
+.workout-form__actions .workout-form__submit {
+  margin-top: 0;
+  flex: 1;
+  min-width: 10rem;
+}
+
 .workout-form__submit {
   margin-top: 1.25rem;
   width: 100%;
@@ -207,6 +240,37 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--color-heading);
+}
+
+.workout-card--editing {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 0 0 2px var(--color-accent-soft);
+}
+
+.workout-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.workout-card__edit {
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.workout-card__edit:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-elevated);
 }
 
 .workout-card__delete {

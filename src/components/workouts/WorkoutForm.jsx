@@ -1,6 +1,6 @@
 import FormField from '../forms/FormField'
 
-function WorkoutForm({ form, errors, onChange, onSubmit }) {
+function WorkoutForm({ form, errors, onChange, onSubmit, isEditing, onCancel }) {
   const handleChange = (field) => (e) => {
     onChange(field, e.target.value)
   }
@@ -59,9 +59,16 @@ function WorkoutForm({ form, errors, onChange, onSubmit }) {
         />
       </div>
 
-      <button type="submit" className="workout-form__submit">
-        Antrenman Ekle
-      </button>
+      <div className="workout-form__actions">
+        <button type="submit" className="workout-form__submit">
+          {isEditing ? 'Güncelle' : 'Antrenman Ekle'}
+        </button>
+        {isEditing && onCancel && (
+          <button type="button" className="workout-form__cancel" onClick={onCancel}>
+            İptal
+          </button>
+        )}
+      </div>
     </form>
   )
 }

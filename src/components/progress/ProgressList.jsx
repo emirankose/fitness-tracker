@@ -13,7 +13,7 @@ function formatDate(dateStr) {
 function ProgressList({ records }) {
   if (records.length === 0) {
     return (
-      <p className="progress-list__empty">Henüz progress kaydı eklenmedi</p>
+      <p className="progress-list__empty">Henüz kilo kaydı eklenmedi</p>
     )
   }
 

@@ -4,9 +4,11 @@ import NutritionForm from '../components/nutrition/NutritionForm'
 import NutritionList from '../components/nutrition/NutritionList'
 import {
   addMeal,
+  deleteMeal,
   getDailyTotals,
   loadMeals,
   sortMealsByDate,
+  updateMeal,
 } from '../utils/nutritionStorage'
 import { normalizeMeal, validateMeal } from '../utils/validateNutrition'
 import './Nutrition.css'
@@ -22,11 +24,23 @@ const EMPTY_FORM = {
   date: today(),
 }
 
+function mealToForm(meal) {
+  return {
+    mealType: meal.mealType ?? '',
+    calories: String(meal.calories ?? ''),
+    protein: String(meal.protein ?? ''),
+    carbs: String(meal.carbs ?? ''),
+    fat: String(meal.fat ?? ''),
+    date: meal.date ?? today(),
+  }
+}
+
 function Nutrition() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [errors, setErrors] = useState({})
   const [meals, setMeals] = useState(() => sortMealsByDate(loadMeals()))
   const [selectedDate, setSelectedDate] = useState(today())
+  const [editingId, setEditingId] = useState(null)
   const [successMessage, setSuccessMessage] = useState('')
 
   const refreshMeals = useCallback(() => {
@@ -43,6 +57,12 @@ function Nutrition() {
     () => getDailyTotals(meals, selectedDate),
     [meals, selectedDate],
   )
+
+  const resetForm = useCallback(() => {
+    setForm({ ...EMPTY_FORM, date: today() })
+    setEditingId(null)
+    setErrors({})
+  }, [])
 
   const handleChange = useCallback((field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }))
@@ -62,17 +82,48 @@ function Nutrition() {
 
     if (!isValid) return
 
-    addMeal(normalizeMeal(form))
+    const normalized = normalizeMeal(form)
+
+    if (editingId) {
+      updateMeal(editingId, normalized)
+      refreshMeals()
+      setSelectedDate(normalized.date)
+      resetForm()
+      setSuccessMessage('Öğün başarıyla güncellendi.')
+      return
+    }
+
+    addMeal(normalized)
     refreshMeals()
-    setSelectedDate(form.date)
-    setForm({ ...EMPTY_FORM, date: today() })
+    setSelectedDate(normalized.date)
+    resetForm()
     setSuccessMessage('Öğün başarıyla eklendi.')
+  }
+
+  const handleEdit = (meal) => {
+    setEditingId(meal.id)
+    setForm(mealToForm(meal))
+    setSelectedDate(meal.date)
+    setErrors({})
+    setSuccessMessage('')
+  }
+
+  const handleDelete = (id, mealLabel) => {
+    const confirmed = window.confirm(
+      `"${mealLabel}" öğününü silmek istediğinize emin misiniz?`,
+    )
+    if (!confirmed) return
+
+    deleteMeal(id)
+    if (editingId === id) resetForm()
+    refreshMeals()
+    setSuccessMessage('Öğün silindi.')
   }
 
   return (
     <div className="nutrition-page">
       <header className="nutrition-page__header">
-        <h1>Nutrition</h1>
+        <h1>Beslenme</h1>
         <p>Beslenme kayıtlarınızı ve kalori takibinizi yönetin.</p>
       </header>
 
@@ -89,18 +140,25 @@ function Nutrition() {
       />
 
       <section className="nutrition-form-card" aria-labelledby="nutrition-form-title">
-        <h2 id="nutrition-form-title">Yeni Öğün</h2>
+        <h2 id="nutrition-form-title">{editingId ? 'Öğünü Düzenle' : 'Yeni Öğün'}</h2>
         <NutritionForm
           form={form}
           errors={errors}
+          isEditing={Boolean(editingId)}
           onChange={handleChange}
           onSubmit={handleSubmit}
+          onCancel={resetForm}
         />
       </section>
 
       <section className="nutrition-list-card" aria-labelledby="nutrition-list-title">
         <h2 id="nutrition-list-title">Öğün Kayıtları</h2>
-        <NutritionList meals={meals} />
+        <NutritionList
+          meals={meals}
+          editingId={editingId}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
       </section>
     </div>
   )

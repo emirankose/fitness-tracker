@@ -2,7 +2,7 @@ import FormField from '../forms/FormField'
 import FormSelect from '../forms/FormSelect'
 import { MEAL_TYPES } from '../../constants/mealTypes'
 
-function NutritionForm({ form, errors, onChange, onSubmit }) {
+function NutritionForm({ form, errors, onChange, onSubmit, isEditing, onCancel }) {
   const handleChange = (field) => (e) => {
     onChange(field, e.target.value)
   }
@@ -73,9 +73,16 @@ function NutritionForm({ form, errors, onChange, onSubmit }) {
         />
       </div>
 
-      <button type="submit" className="nutrition-form__submit">
-        Öğün Ekle
-      </button>
+      <div className="nutrition-form__actions">
+        <button type="submit" className="nutrition-form__submit">
+          {isEditing ? 'Güncelle' : 'Öğün Ekle'}
+        </button>
+        {isEditing && onCancel && (
+          <button type="button" className="nutrition-form__cancel" onClick={onCancel}>
+            İptal
+          </button>
+        )}
+      </div>
     </form>
   )
 }

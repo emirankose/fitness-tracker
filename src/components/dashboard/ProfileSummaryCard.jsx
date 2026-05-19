@@ -15,7 +15,7 @@ function ProfileSummaryCard({ profile }) {
           </div>
         </dl>
       ) : (
-        <p className="dashboard-empty">Profil bilgisi eklenmedi. Profile sayfasından kayıt oluşturun.</p>
+        <p className="dashboard-empty">Profil bilgisi eklenmedi. Profil sayfasından kayıt oluşturun.</p>
       )}
     </DashboardCard>
   )

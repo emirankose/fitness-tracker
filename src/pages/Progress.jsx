@@ -66,7 +66,7 @@ function Progress() {
   return (
     <div className="progress-page">
       <header className="progress-page__header">
-        <h1>Progress</h1>
+        <h1>Gelişim</h1>
         <p>Gelişiminizi grafikler ve istatistiklerle izleyin.</p>
       </header>
 

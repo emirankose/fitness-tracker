@@ -14,7 +14,7 @@ function formatDate(dateStr) {
 
 function ProgressSummaryCard({ record }) {
   return (
-    <DashboardCard title="Progress">
+    <DashboardCard title="Gelişim">
       {record ? (
         <dl className="dashboard-stat-list">
           <div>
@@ -32,7 +32,7 @@ function ProgressSummaryCard({ record }) {
           </div>
         </dl>
       ) : (
-        <p className="dashboard-empty">Henüz kilo kaydı yok. Progress sayfasından ekleyin.</p>
+        <p className="dashboard-empty">Henüz kilo kaydı yok. Gelişim sayfasından ekleyin.</p>
       )}
     </DashboardCard>
   )

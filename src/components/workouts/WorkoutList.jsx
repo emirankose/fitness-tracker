@@ -10,7 +10,7 @@ function formatDate(dateStr) {
   }
 }
 
-function WorkoutList({ workouts, onDelete }) {
+function WorkoutList({ workouts, onDelete, onEdit, editingId }) {
   if (workouts.length === 0) {
     return (
       <p className="workout-list__empty">Henüz antrenman eklenmedi</p>
@@ -20,7 +20,10 @@ function WorkoutList({ workouts, onDelete }) {
   return (
     <ul className="workout-list">
       {workouts.map((workout) => (
-        <li key={workout.id} className="workout-card">
+        <li
+          key={workout.id}
+          className={`workout-card${editingId === workout.id ? ' workout-card--editing' : ''}`}
+        >
           <div className="workout-card__header">
             <h3>{workout.exerciseName}</h3>
             <time dateTime={workout.date}>{formatDate(workout.date)}</time>
@@ -39,13 +42,22 @@ function WorkoutList({ workouts, onDelete }) {
               <dd>{workout.duration} dk</dd>
             </div>
           </dl>
-          <button
-            type="button"
-            className="workout-card__delete"
-            onClick={() => onDelete(workout.id, workout.exerciseName)}
-          >
-            Sil
-          </button>
+          <div className="workout-card__actions">
+            <button
+              type="button"
+              className="workout-card__edit"
+              onClick={() => onEdit(workout)}
+            >
+              Düzenle
+            </button>
+            <button
+              type="button"
+              className="workout-card__delete"
+              onClick={() => onDelete(workout.id, workout.exerciseName)}
+            >
+              Sil
+            </button>
+          </div>
         </li>
       ))}
     </ul>

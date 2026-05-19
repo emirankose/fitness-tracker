@@ -1,10 +1,16 @@
-import { useState } from 'react'
+﻿import { useCallback, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getMealLabel } from '../constants/mealTypes'
+import { getGoalLabel } from '../constants/profileGoals'
+import { deleteProfile, loadProfile } from '../utils/profileStorage'
 import {
   getStorageItem,
   removeStorageItem,
   setStorageItem,
 } from '../utils/storage'
+import { deleteMeal, loadMeals, sortMealsByDate } from '../utils/nutritionStorage'
+import { deleteProgressRecord, loadProgressRecords, sortRecordsByDateDesc } from '../utils/progressStorage'
+import { deleteWorkout, loadWorkouts, sortWorkoutsByDate } from '../utils/workoutStorage'
 import './Admin.css'
 
 const SESSION_KEY = 'fittrack_admin_session'
@@ -203,6 +209,284 @@ function importFitnessData(rawJson) {
   }
 }
 
+function formatDate(dateStr) {
+  try {
+    return new Date(`${dateStr}T12:00:00`).toLocaleDateString('tr-TR', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+  } catch {
+    return dateStr
+  }
+}
+
+function AdminStatCard({ label, value, hint }) {
+  return (
+    <article className="admin-stat-card">
+      <span className="admin-stat-card__label">{label}</span>
+      <strong className="admin-stat-card__value">{value}</strong>
+      {hint && <span className="admin-stat-card__hint">{hint}</span>}
+    </article>
+  )
+}
+
+function AdminDataDashboard({ dataVersion, onDataChange, setPanelSuccess, setPanelError }) {
+  const profile = useMemo(() => loadProfile(), [dataVersion])
+  const workouts = useMemo(() => sortWorkoutsByDate(loadWorkouts()), [dataVersion])
+  const meals = useMemo(() => sortMealsByDate(loadMeals()), [dataVersion])
+  const progressRecords = useMemo(
+    () => sortRecordsByDateDesc(loadProgressRecords()),
+    [dataVersion],
+  )
+
+  const confirmDelete = useCallback((message) => window.confirm(message), [])
+
+  const handleDeleteProfile = () => {
+    if (!profile) return
+    if (
+      !confirmDelete(
+        `${profile.fullName} adlı profil kaydını silmek istediğinize emin misiniz?`,
+      )
+    ) {
+      return
+    }
+    deleteProfile()
+    onDataChange()
+    setPanelError('')
+    setPanelSuccess('Profil kaydı silindi.')
+  }
+
+  const handleDeleteWorkout = (workout) => {
+    if (
+      !confirmDelete(
+        `"${workout.exerciseName}" antrenman kaydını silmek istediğinize emin misiniz?`,
+      )
+    ) {
+      return
+    }
+    deleteWorkout(workout.id)
+    onDataChange()
+    setPanelError('')
+    setPanelSuccess('Antrenman kaydı silindi.')
+  }
+
+  const handleDeleteMeal = (meal) => {
+    if (
+      !confirmDelete(
+        `${getMealLabel(meal.mealType)} öğün kaydını silmek istediğinize emin misiniz?`,
+      )
+    ) {
+      return
+    }
+    deleteMeal(meal.id)
+    onDataChange()
+    setPanelError('')
+    setPanelSuccess('Öğün kaydı silindi.')
+  }
+
+  const handleDeleteProgress = (record) => {
+    if (
+      !confirmDelete(
+        `${record.weight} kg kaydını (${formatDate(record.date)}) silmek istediğinize emin misiniz?`,
+      )
+    ) {
+      return
+    }
+    deleteProgressRecord(record.id)
+    onDataChange()
+    setPanelError('')
+    setPanelSuccess('Kilo kaydı silindi.')
+  }
+
+  return (
+    <>
+      <div className="admin-stats">
+        <AdminStatCard
+          label="Profil"
+          value={profile ? '1 kayıt' : 'Kayıt yok'}
+          hint={profile ? profile.fullName : 'Henüz profil oluşturulmadı'}
+        />
+        <AdminStatCard label="Antrenman" value={workouts.length} hint="Toplam antrenman kaydı" />
+        <AdminStatCard label="Öğün" value={meals.length} hint="Toplam öğün kaydı" />
+        <AdminStatCard label="Kilo" value={progressRecords.length} hint="Toplam kilo kaydı" />
+      </div>
+
+      <section className="admin-section admin-section--data">
+        <div className="admin-section__head">
+          <h3>Profil Kaydı</h3>
+          {profile && (
+            <button
+              type="button"
+              className="admin-btn admin-btn--danger admin-btn--sm"
+              onClick={handleDeleteProfile}
+            >
+              Sil
+            </button>
+          )}
+        </div>
+        {profile ? (
+          <dl className="admin-profile-card">
+            <div>
+              <dt>Ad Soyad</dt>
+              <dd>{profile.fullName}</dd>
+            </div>
+            <div>
+              <dt>Yaş</dt>
+              <dd>{profile.age}</dd>
+            </div>
+            <div>
+              <dt>Boy</dt>
+              <dd>{profile.height} cm</dd>
+            </div>
+            <div>
+              <dt>Kilo</dt>
+              <dd>{profile.weight} kg</dd>
+            </div>
+            <div>
+              <dt>Hedef</dt>
+              <dd>{getGoalLabel(profile.goal)}</dd>
+            </div>
+          </dl>
+        ) : (
+          <p className="admin-empty">Kayıtlı profil bulunmuyor.</p>
+        )}
+      </section>
+
+      <section className="admin-section admin-section--data">
+        <div className="admin-section__head">
+          <h3>Antrenman Kayıtları</h3>
+          <span className="admin-badge">{workouts.length}</span>
+        </div>
+        {workouts.length === 0 ? (
+          <p className="admin-empty">Antrenman kaydı yok.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Egzersiz</th>
+                  <th>Tarih</th>
+                  <th>Set</th>
+                  <th>Tekrar</th>
+                  <th>Süre</th>
+                  <th aria-label="İşlemler" />
+                </tr>
+              </thead>
+              <tbody>
+                {workouts.map((workout) => (
+                  <tr key={workout.id}>
+                    <td>{workout.exerciseName}</td>
+                    <td>{formatDate(workout.date)}</td>
+                    <td>{workout.sets}</td>
+                    <td>{workout.reps}</td>
+                    <td>{workout.duration} dk</td>
+                    <td className="admin-table__actions">
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--danger admin-btn--sm"
+                        onClick={() => handleDeleteWorkout(workout)}
+                      >
+                        Sil
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section className="admin-section admin-section--data">
+        <div className="admin-section__head">
+          <h3>Öğün Kayıtları</h3>
+          <span className="admin-badge">{meals.length}</span>
+        </div>
+        {meals.length === 0 ? (
+          <p className="admin-empty">Öğün kaydı yok.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Öğün</th>
+                  <th>Tarih</th>
+                  <th>Kalori</th>
+                  <th>Protein</th>
+                  <th>Karb.</th>
+                  <th>Yağ</th>
+                  <th aria-label="İşlemler" />
+                </tr>
+              </thead>
+              <tbody>
+                {meals.map((meal) => (
+                  <tr key={meal.id}>
+                    <td>{getMealLabel(meal.mealType)}</td>
+                    <td>{formatDate(meal.date)}</td>
+                    <td>{meal.calories}</td>
+                    <td>{meal.protein} g</td>
+                    <td>{meal.carbs} g</td>
+                    <td>{meal.fat} g</td>
+                    <td className="admin-table__actions">
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--danger admin-btn--sm"
+                        onClick={() => handleDeleteMeal(meal)}
+                      >
+                        Sil
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      <section className="admin-section admin-section--data">
+        <div className="admin-section__head">
+          <h3>Kilo / Gelişim Kayıtları</h3>
+          <span className="admin-badge">{progressRecords.length}</span>
+        </div>
+        {progressRecords.length === 0 ? (
+          <p className="admin-empty">Kilo kaydı yok.</p>
+        ) : (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Kilo</th>
+                  <th aria-label="İşlemler" />
+                </tr>
+              </thead>
+              <tbody>
+                {progressRecords.map((record) => (
+                  <tr key={record.id}>
+                    <td>{formatDate(record.date)}</td>
+                    <td>{record.weight} kg</td>
+                    <td className="admin-table__actions">
+                      <button
+                        type="button"
+                        className="admin-btn admin-btn--danger admin-btn--sm"
+                        onClick={() => handleDeleteProgress(record)}
+                      >
+                        Sil
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    </>
+  )
+}
+
 function Admin() {
   const [authenticated, setAuthenticated] = useState(() => isAdminAuthenticated())
   const [password, setPassword] = useState('')
@@ -210,6 +494,11 @@ function Admin() {
   const [importText, setImportText] = useState('')
   const [panelError, setPanelError] = useState('')
   const [panelSuccess, setPanelSuccess] = useState('')
+  const [dataVersion, setDataVersion] = useState(0)
+
+  const refreshData = useCallback(() => {
+    setDataVersion((v) => v + 1)
+  }, [])
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -244,7 +533,7 @@ function Admin() {
     downloadExport()
     const s = buildExport()
     setPanelSuccess(
-      `Dışa aktarıldı: profil ${s.profile ? 'var' : 'yok'}, ${s.workouts.length} antrenman, ${s.nutrition.length} öğün, ${s.progress.length} progress.`,
+      `Dışa aktarıldı: profil ${s.profile ? 'var' : 'yok'}, ${s.workouts.length} antrenman, ${s.nutrition.length} öğün, ${s.progress.length} kilo kaydı.`,
     )
     setPanelError('')
   }
@@ -259,6 +548,7 @@ function Admin() {
     setImportText('')
     setPanelError('')
     setPanelSuccess('Veriler başarıyla içe aktarıldı. Dashboard güncel veriyi kullanacaktır.')
+    refreshData()
   }
 
   const handleFileSelect = (e) => {
@@ -277,7 +567,7 @@ function Admin() {
   return (
     <div className="admin-page">
       <header className="admin-page__header">
-        <h1>Admin</h1>
+        <h1>Yönetim Paneli</h1>
         <p>Sistem ve veri yönetimi</p>
       </header>
 
@@ -352,20 +642,25 @@ function Admin() {
             </p>
           )}
 
-          <section className="admin-section">
-            <h3>Veri Dışa Aktar</h3>
-            <p>profile, workouts, nutrition ve progress verilerini JSON olarak indirin.</p>
-            <button type="button" className="admin-btn admin-btn--primary" onClick={handleExport}>
-              JSON İndir
-            </button>
-          </section>
+          <AdminDataDashboard
+            dataVersion={dataVersion}
+            onDataChange={refreshData}
+            setPanelSuccess={setPanelSuccess}
+            setPanelError={setPanelError}
+          />
 
-          <section className="admin-section">
-            <h3>Veri İçe Aktar</h3>
-            <p>JSON yapıştırın veya dosya seçin. Mevcut verilerin üzerine yazılır.</p>
+          <section className="admin-section admin-section--tools">
+            <h3>Yedekleme</h3>
+            <p>Tüm verileri JSON dosyası olarak indirin veya geri yükleyin.</p>
 
-            <div className="admin-field">
-              <label htmlFor="importFile">JSON dosyası</label>
+            <div className="admin-tools-row">
+              <button type="button" className="admin-btn admin-btn--primary" onClick={handleExport}>
+                JSON İndir
+              </button>
+            </div>
+
+            <div className="admin-field admin-field--file">
+              <label htmlFor="importFile">JSON dosyası seç</label>
               <input
                 id="importFile"
                 type="file"
@@ -375,16 +670,16 @@ function Admin() {
             </div>
 
             <div className="admin-field">
-              <label htmlFor="importJson">JSON içeriği</label>
+              <label htmlFor="importJson">JSON içeriği (gelişmiş)</label>
               <textarea
                 id="importJson"
-                rows={10}
+                rows={6}
                 value={importText}
                 onChange={(e) => {
                   setImportText(e.target.value)
                   setPanelError('')
                 }}
-                placeholder='{"profile":null,"workouts":[],"nutrition":[],"progress":[]}'
+                placeholder="Yedek JSON dosyasının içeriğini buraya yapıştırın"
                 spellCheck={false}
               />
             </div>

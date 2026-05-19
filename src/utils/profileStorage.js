@@ -1,4 +1,4 @@
-import { getStorageItem, setStorageItem } from './storage'
+import { getStorageItem, removeStorageItem, setStorageItem } from './storage'
 
 const PROFILE_KEY = 'profile'
 
@@ -11,4 +11,8 @@ export function saveProfile(profile) {
     ...profile,
     updatedAt: new Date().toISOString(),
   })
+}
+
+export function deleteProfile() {
+  return removeStorageItem(PROFILE_KEY)
 }

@@ -22,6 +22,11 @@ export function addProgressRecord(record) {
   return entry
 }
 
+export function deleteProgressRecord(id) {
+  const list = loadProgressRecords().filter((r) => r.id !== id)
+  return saveProgressRecords(list)
+}
+
 export function sortRecordsByDateDesc(records) {
   return [...records].sort((a, b) => {
     const dateDiff = new Date(b.date) - new Date(a.date)

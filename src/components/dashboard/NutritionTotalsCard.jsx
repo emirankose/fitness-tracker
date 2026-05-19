@@ -39,7 +39,7 @@ function NutritionTotalsCard({ nutrition, selectedDate, onDateChange }) {
 
       {!hasMealsForDay ? (
         <p className="dashboard-empty">
-          Bu gün için öğün kaydı yok. Nutrition sayfasından ekleyin.
+          Bu gün için öğün kaydı yok. Beslenme sayfasından ekleyin.
         </p>
       ) : (
         <div className="dashboard-macro-grid">
