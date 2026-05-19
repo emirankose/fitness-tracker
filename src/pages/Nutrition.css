@@ -1,22 +1,7 @@
 .nutrition-page {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
-
-.nutrition-page__header h1 {
-  margin: 0 0 0.35rem;
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--color-heading);
-  letter-spacing: -0.03em;
-}
-
-.nutrition-page__header p {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  gap: 1.5rem;
 }
 
 .nutrition-alert {
@@ -30,22 +15,10 @@
   animation: nutrition-alert-in 0.3s ease;
 }
 
-.nutrition-summary,
-.nutrition-form-card,
-.nutrition-list-card {
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-}
-
 .nutrition-summary h2,
 .nutrition-form-card h2,
 .nutrition-list-card h2 {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-heading);
 }
 
 .nutrition-summary__header {
@@ -103,11 +76,20 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  padding: 0.85rem;
-  background: var(--color-card);
+  padding: 0.9rem 0.85rem;
+  background: rgba(0, 0, 0, 0.22);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  border-top: 3px solid var(--color-accent);
+  border-top: 3px solid transparent;
+  border-image: var(--gradient-accent) 1;
+  transition:
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.nutrition-summary__card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow-green);
 }
 
 .nutrition-summary__label {
@@ -185,18 +167,20 @@
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #052e16;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #16a34a 100%);
+  font-weight: 700;
+  color: #042f1a;
+  background: var(--gradient-accent);
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(52, 211, 153, 0.22);
   transition:
     transform var(--transition-fast),
     box-shadow var(--transition-fast);
 }
 
 .nutrition-form__submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px var(--color-accent-glow);
+  transform: translateY(-2px);
+  background: var(--gradient-accent-hover);
+  box-shadow: 0 8px 28px rgba(52, 211, 153, 0.32);
 }
 
 .nutrition-form__submit:focus-visible {
@@ -280,11 +264,22 @@
 }
 
 .nutrition-card {
-  background: var(--color-card);
+  background: var(--gradient-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.1rem;
-  animation: nutrition-card-in 0.3s ease;
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.2rem;
+  box-shadow: var(--shadow-card);
+  animation: nutrition-card-in 0.35s ease;
+  transition:
+    transform var(--transition-smooth),
+    box-shadow var(--transition-smooth),
+    border-color var(--transition-fast);
+}
+
+.nutrition-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.22);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .nutrition-card__header {

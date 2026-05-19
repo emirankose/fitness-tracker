@@ -44,8 +44,9 @@ function Dashboard() {
   return (
     <div className="dashboard-page">
       <header className="dashboard-page__header">
+        <span className="page-eyebrow">📊 Genel bakış</span>
         <h1>Dashboard</h1>
-        <p>Genel fitness özetinizi buradan takip edin.</p>
+        <p>Antrenman, beslenme ve gelişim verilerinizin özetini tek ekranda izleyin.</p>
       </header>
 
       <div className="dashboard-grid">

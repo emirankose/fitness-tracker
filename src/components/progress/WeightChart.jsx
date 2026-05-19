@@ -9,17 +9,24 @@ import {
 } from 'recharts'
 
 const CHART_COLORS = {
-  grid: 'rgba(148, 163, 184, 0.15)',
-  axis: '#94a3b8',
-  line: '#22c55e',
-  tooltipBg: '#1a2332',
-  tooltipBorder: 'rgba(34, 197, 94, 0.35)',
+  grid: 'rgba(148, 163, 184, 0.12)',
+  axis: '#8b9cb3',
+  line: '#34d399',
+  dot: '#818cf8',
+  tooltipBg: '#141f2e',
+  tooltipBorder: 'rgba(129, 140, 248, 0.35)',
 }
 
 function WeightChart({ data }) {
   if (!data.length) {
     return (
-      <p className="progress-chart__empty">Grafik için kayıt ekleyin</p>
+      <div className="ui-empty progress-chart__empty">
+        <span className="ui-empty__icon" aria-hidden="true">
+          📉
+        </span>
+        <p className="ui-empty__text">Grafik için veri yok</p>
+        <p className="ui-empty__hint">En az bir kilo kaydı eklediğinizde grafik burada görünür.</p>
+      </div>
     )
   }
 
@@ -63,8 +70,8 @@ function WeightChart({ data }) {
             dataKey="weight"
             stroke={CHART_COLORS.line}
             strokeWidth={2}
-            dot={{ fill: CHART_COLORS.line, r: 4 }}
-            activeDot={{ r: 6 }}
+            dot={{ fill: CHART_COLORS.dot, stroke: CHART_COLORS.line, strokeWidth: 2, r: 4 }}
+            activeDot={{ r: 6, fill: CHART_COLORS.line, stroke: '#f8fafc', strokeWidth: 2 }}
           />
         </LineChart>
       </ResponsiveContainer>

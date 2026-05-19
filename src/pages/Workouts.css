@@ -1,25 +1,11 @@
 .workouts-page {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
-.workouts-page__header h1 {
-  margin: 0 0 0.35rem;
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--color-heading);
-  letter-spacing: -0.03em;
-}
-
-.workouts-page__header p {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
-}
-
-.workouts-alert {
+.workouts-alert,
+.workouts-page .ui-alert {
   padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
   font-size: 0.9rem;
@@ -30,20 +16,9 @@
   animation: workouts-alert-in 0.3s ease;
 }
 
-.workouts-form-card,
-.workouts-list-card {
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-}
-
 .workouts-form-card h2,
 .workouts-list-card h2 {
-  margin: 0 0 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-heading);
+  margin: 0;
 }
 
 .workout-form__grid {
@@ -75,12 +50,14 @@
   cursor: pointer;
   transition:
     background var(--transition-fast),
-    border-color var(--transition-fast);
+    border-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
 .workout-form__cancel:hover {
-  border-color: var(--color-border-strong);
-  background: var(--color-surface-elevated);
+  border-color: rgba(129, 140, 248, 0.35);
+  background: var(--color-card-hover);
+  transform: translateY(-1px);
 }
 
 .workout-form__actions .workout-form__submit {
@@ -96,18 +73,21 @@
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #052e16;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #16a34a 100%);
+  font-weight: 700;
+  color: #042f1a;
+  background: var(--gradient-accent);
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(52, 211, 153, 0.22);
   transition:
     transform var(--transition-fast),
-    box-shadow var(--transition-fast);
+    box-shadow var(--transition-fast),
+    filter var(--transition-fast);
 }
 
 .workout-form__submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px var(--color-accent-glow);
+  transform: translateY(-2px);
+  background: var(--gradient-accent-hover);
+  box-shadow: 0 8px 28px rgba(52, 211, 153, 0.32);
 }
 
 .workout-form__submit:focus-visible {
@@ -170,23 +150,28 @@
 
 .workout-list__empty {
   margin: 0;
-  padding: 2rem 1rem;
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-sm);
 }
 
 .workout-card {
-  background: var(--color-card);
+  background: var(--gradient-surface);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.2rem;
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
-  animation: workout-card-in 0.3s ease;
+  box-shadow: var(--shadow-card);
+  animation: workout-card-in 0.35s ease;
+  transition:
+    transform var(--transition-smooth),
+    box-shadow var(--transition-smooth),
+    border-color var(--transition-fast);
+}
+
+.workout-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(52, 211, 153, 0.22);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .workout-card__header {
@@ -243,60 +228,17 @@
 }
 
 .workout-card--editing {
-  border-color: var(--color-border-strong);
-  box-shadow: 0 0 0 2px var(--color-accent-soft);
+  border-color: rgba(129, 140, 248, 0.45);
+  box-shadow:
+    0 0 0 2px var(--color-purple-soft),
+    var(--shadow-glow-purple);
 }
 
 .workout-card__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-.workout-card__edit {
-  padding: 0.45rem 0.85rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-card);
-  color: var(--color-text);
-  font-size: 0.85rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-.workout-card__edit:hover {
-  border-color: var(--color-border-strong);
-  background: var(--color-surface-elevated);
-}
-
-.workout-card__delete {
-  align-self: flex-start;
-  padding: 0.45rem 0.85rem;
-  border: 1px solid rgba(248, 113, 113, 0.4);
-  border-radius: var(--radius-sm);
-  background: rgba(248, 113, 113, 0.08);
-  color: #f87171;
-  font-size: 0.85rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast),
-    border-color var(--transition-fast);
-}
-
-.workout-card__delete:hover {
-  background: rgba(248, 113, 113, 0.15);
-  border-color: rgba(248, 113, 113, 0.6);
-}
-
-.workout-card__delete:focus-visible {
-  outline: 2px solid #f87171;
-  outline-offset: 2px;
+  padding-top: 0.15rem;
 }
 
 @keyframes workouts-alert-in {

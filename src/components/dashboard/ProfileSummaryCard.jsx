@@ -2,7 +2,7 @@ import DashboardCard from './DashboardCard'
 
 function ProfileSummaryCard({ profile }) {
   return (
-    <DashboardCard title="Profil Özeti">
+    <DashboardCard title="Profil Özeti" icon="👤" accent="purple">
       {profile ? (
         <dl className="dashboard-stat-list">
           <div>
@@ -15,7 +15,13 @@ function ProfileSummaryCard({ profile }) {
           </div>
         </dl>
       ) : (
-        <p className="dashboard-empty">Profil bilgisi eklenmedi. Profil sayfasından kayıt oluşturun.</p>
+        <div className="ui-empty dashboard-empty">
+          <span className="ui-empty__icon" aria-hidden="true">
+            👤
+          </span>
+          <p className="ui-empty__text">Profil henüz oluşturulmadı</p>
+          <p className="ui-empty__hint">Profil sayfasından bilgilerinizi kaydedin.</p>
+        </div>
       )}
     </DashboardCard>
   )

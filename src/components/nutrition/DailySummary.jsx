@@ -19,7 +19,7 @@ const SUMMARY_ITEMS = [
 
 function DailySummary({ selectedDate, onDateChange, totals }) {
   return (
-    <section className="nutrition-summary" aria-labelledby="nutrition-summary-title">
+    <section className="nutrition-summary ui-section-card" aria-labelledby="nutrition-summary-title">
       <div className="nutrition-summary__header">
         <div>
           <h2 id="nutrition-summary-title">Günlük Özet</h2>

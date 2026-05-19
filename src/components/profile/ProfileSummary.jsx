@@ -12,7 +12,7 @@ function ProfileSummary({ profile }) {
   ]
 
   return (
-    <section className="profile-summary" aria-labelledby="profile-summary-title">
+    <section className="profile-summary ui-section-card" aria-labelledby="profile-summary-title">
       <h2 id="profile-summary-title">Kayıtlı Profil Özeti</h2>
       <div className="profile-summary__grid">
         {items.map((item) => (

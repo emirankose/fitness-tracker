@@ -110,8 +110,9 @@ function Workouts() {
   return (
     <div className="workouts-page">
       <header className="workouts-page__header">
+        <span className="page-eyebrow">🏋️ Antrenman takibi</span>
         <h1>Antrenmanlar</h1>
-        <p>Antrenman planlarınızı görüntüleyin ve düzenleyin.</p>
+        <p>Egzersizlerinizi kaydedin, düzenleyin ve geçmişinizi kolayca yönetin.</p>
       </header>
 
       {successMessage && (
@@ -120,7 +121,7 @@ function Workouts() {
         </div>
       )}
 
-      <section className="workouts-form-card" aria-labelledby="workout-form-title">
+      <section className="workouts-form-card ui-section-card" aria-labelledby="workout-form-title">
         <h2 id="workout-form-title">
           {editingId ? 'Antrenmanı Düzenle' : 'Yeni Antrenman'}
         </h2>
@@ -134,7 +135,7 @@ function Workouts() {
         />
       </section>
 
-      <section className="workouts-list-card" aria-labelledby="workout-list-title">
+      <section className="workouts-list-card ui-section-card" aria-labelledby="workout-list-title">
         <h2 id="workout-list-title">Antrenman Geçmişi</h2>
         <WorkoutList
           workouts={workouts}

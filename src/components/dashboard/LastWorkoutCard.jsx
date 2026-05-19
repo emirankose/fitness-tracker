@@ -14,7 +14,7 @@ function formatDate(dateStr) {
 
 function LastWorkoutCard({ workout }) {
   return (
-    <DashboardCard title="Son Antrenman">
+    <DashboardCard title="Son Antrenman" icon="🏋️" accent="green">
       {workout ? (
         <dl className="dashboard-stat-list">
           <div>
@@ -24,12 +24,18 @@ function LastWorkoutCard({ workout }) {
             </dd>
           </div>
           <div>
-            <dt>Egzersiz adı</dt>
+            <dt>Egzersiz</dt>
             <dd>{workout.exerciseName}</dd>
           </div>
         </dl>
       ) : (
-        <p className="dashboard-empty">Henüz antrenman kaydı yok. Antrenmanlar sayfasından ekleyin.</p>
+        <div className="ui-empty dashboard-empty">
+          <span className="ui-empty__icon" aria-hidden="true">
+            🏋️
+          </span>
+          <p className="ui-empty__text">Henüz antrenman yok</p>
+          <p className="ui-empty__hint">Antrenmanlar sayfasından ilk kaydınızı ekleyin.</p>
+        </div>
       )}
     </DashboardCard>
   )

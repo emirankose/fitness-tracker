@@ -1,22 +1,7 @@
 .profile-page {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-}
-
-.profile-page__header h1 {
-  margin: 0 0 0.35rem;
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--color-heading);
-  letter-spacing: -0.03em;
-}
-
-.profile-page__header p {
-  margin: 0;
-  color: var(--color-text-muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  gap: 1.5rem;
 }
 
 .profile-alert {
@@ -30,20 +15,9 @@
   animation: profile-alert-in 0.3s ease;
 }
 
-.profile-form-card,
-.profile-summary {
-  background: var(--color-surface-elevated);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 1.25rem;
-}
-
 .profile-form-card h2,
 .profile-summary h2 {
-  margin: 0 0 1rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-heading);
+  margin: 0;
 }
 
 .profile-form__grid {
@@ -63,10 +37,11 @@
   border: none;
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #052e16;
-  background: linear-gradient(135deg, var(--color-accent) 0%, #16a34a 100%);
+  font-weight: 700;
+  color: #042f1a;
+  background: var(--gradient-accent);
   cursor: pointer;
+  box-shadow: 0 4px 20px rgba(52, 211, 153, 0.22);
   transition:
     transform var(--transition-fast),
     box-shadow var(--transition-fast),
@@ -74,8 +49,9 @@
 }
 
 .profile-form__submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px var(--color-accent-glow);
+  transform: translateY(-2px);
+  background: var(--gradient-accent-hover);
+  box-shadow: 0 8px 28px rgba(52, 211, 153, 0.32);
 }
 
 .profile-form__submit:active {
@@ -158,10 +134,20 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  padding: 0.75rem;
-  background: var(--color-card);
+  padding: 0.85rem 0.9rem;
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
+  transition:
+    transform var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.profile-summary__item:hover {
+  transform: translateY(-2px);
+  border-color: rgba(129, 140, 248, 0.28);
+  box-shadow: var(--shadow-glow-purple);
 }
 
 .profile-summary__label {

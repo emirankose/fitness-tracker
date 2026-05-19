@@ -1,8 +1,8 @@
 export const navItems = [
-  { to: '/', label: 'Dashboard', end: true },
-  { to: '/profile', label: 'Profil' },
-  { to: '/workouts', label: 'Antrenmanlar' },
-  { to: '/nutrition', label: 'Beslenme' },
-  { to: '/progress', label: 'Gelişim' },
-  { to: '/admin', label: 'Yönetim' },
+  { to: '/', label: 'Dashboard', icon: '📊', end: true },
+  { to: '/profile', label: 'Profil', icon: '👤' },
+  { to: '/workouts', label: 'Antrenmanlar', icon: '🏋️' },
+  { to: '/nutrition', label: 'Beslenme', icon: '🥗' },
+  { to: '/progress', label: 'Gelişim', icon: '📈' },
+  { to: '/admin', label: 'Yönetim', icon: '⚙️' },
 ]

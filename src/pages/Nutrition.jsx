@@ -123,8 +123,9 @@ function Nutrition() {
   return (
     <div className="nutrition-page">
       <header className="nutrition-page__header">
+        <span className="page-eyebrow">🥗 Beslenme takibi</span>
         <h1>Beslenme</h1>
-        <p>Beslenme kayıtlarınızı ve kalori takibinizi yönetin.</p>
+        <p>Günlük kalori ve makro değerlerinizi kaydederek beslenmenizi kontrol altında tutun.</p>
       </header>
 
       {successMessage && (
@@ -139,7 +140,7 @@ function Nutrition() {
         totals={dailyTotals}
       />
 
-      <section className="nutrition-form-card" aria-labelledby="nutrition-form-title">
+      <section className="nutrition-form-card ui-section-card" aria-labelledby="nutrition-form-title">
         <h2 id="nutrition-form-title">{editingId ? 'Öğünü Düzenle' : 'Yeni Öğün'}</h2>
         <NutritionForm
           form={form}
@@ -151,7 +152,7 @@ function Nutrition() {
         />
       </section>
 
-      <section className="nutrition-list-card" aria-labelledby="nutrition-list-title">
+      <section className="nutrition-list-card ui-section-card" aria-labelledby="nutrition-list-title">
         <h2 id="nutrition-list-title">Öğün Kayıtları</h2>
         <NutritionList
           meals={meals}

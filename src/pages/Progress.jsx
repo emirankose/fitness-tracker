@@ -66,8 +66,9 @@ function Progress() {
   return (
     <div className="progress-page">
       <header className="progress-page__header">
+        <span className="page-eyebrow">📈 İlerleme analizi</span>
         <h1>Gelişim</h1>
-        <p>Gelişiminizi grafikler ve istatistiklerle izleyin.</p>
+        <p>Kilo değişimlerinizi grafik ve kayıt listesiyle düzenli olarak takip edin.</p>
       </header>
 
       {successMessage && (
@@ -78,12 +79,12 @@ function Progress() {
 
       <LatestWeightSummary record={latestRecord} />
 
-      <section className="progress-chart-card" aria-labelledby="progress-chart-title">
+      <section className="progress-chart-card ui-section-card" aria-labelledby="progress-chart-title">
         <h2 id="progress-chart-title">Kilo Grafiği</h2>
         <WeightChart data={chartData} />
       </section>
 
-      <section className="progress-form-card" aria-labelledby="progress-form-title">
+      <section className="progress-form-card ui-section-card" aria-labelledby="progress-form-title">
         <h2 id="progress-form-title">Haftalık Kilo Kaydı</h2>
         <ProgressForm
           form={form}
@@ -93,7 +94,7 @@ function Progress() {
         />
       </section>
 
-      <section className="progress-list-card" aria-labelledby="progress-list-title">
+      <section className="progress-list-card ui-section-card" aria-labelledby="progress-list-title">
         <h2 id="progress-list-title">Kayıt Geçmişi</h2>
         <ProgressList records={records} />
       </section>

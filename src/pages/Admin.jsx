@@ -312,7 +312,7 @@ function AdminDataDashboard({ dataVersion, onDataChange, setPanelSuccess, setPan
         <AdminStatCard label="Kilo" value={progressRecords.length} hint="Toplam kilo kaydı" />
       </div>
 
-      <section className="admin-section admin-section--data">
+      <section className="admin-section admin-section--data ui-section-card">
         <div className="admin-section__head">
           <h3>Profil Kaydı</h3>
           {profile && (
@@ -353,7 +353,7 @@ function AdminDataDashboard({ dataVersion, onDataChange, setPanelSuccess, setPan
         )}
       </section>
 
-      <section className="admin-section admin-section--data">
+      <section className="admin-section admin-section--data ui-section-card">
         <div className="admin-section__head">
           <h3>Antrenman Kayıtları</h3>
           <span className="admin-badge">{workouts.length}</span>
@@ -398,7 +398,7 @@ function AdminDataDashboard({ dataVersion, onDataChange, setPanelSuccess, setPan
         )}
       </section>
 
-      <section className="admin-section admin-section--data">
+      <section className="admin-section admin-section--data ui-section-card">
         <div className="admin-section__head">
           <h3>Öğün Kayıtları</h3>
           <span className="admin-badge">{meals.length}</span>
@@ -445,7 +445,7 @@ function AdminDataDashboard({ dataVersion, onDataChange, setPanelSuccess, setPan
         )}
       </section>
 
-      <section className="admin-section admin-section--data">
+      <section className="admin-section admin-section--data ui-section-card">
         <div className="admin-section__head">
           <h3>Kilo / Gelişim Kayıtları</h3>
           <span className="admin-badge">{progressRecords.length}</span>
@@ -567,13 +567,14 @@ function Admin() {
   return (
     <div className="admin-page">
       <header className="admin-page__header">
+        <span className="page-eyebrow">⚙️ Yönetim</span>
         <h1>Yönetim Paneli</h1>
-        <p>Sistem ve veri yönetimi</p>
+        <p>Kayıtları görüntüleyin, silin veya yedekleyerek verilerinizi güvenle yönetin.</p>
       </header>
 
       {!authenticated ? (
         <div className="admin-login">
-          <div className="admin-login__card">
+          <div className="admin-login__card ui-section-card">
             <h2>Admin Girişi</h2>
             <p className="admin-login__hint">Yönetim paneline erişmek için şifrenizi girin.</p>
 
@@ -649,7 +650,7 @@ function Admin() {
             setPanelError={setPanelError}
           />
 
-          <section className="admin-section admin-section--tools">
+          <section className="admin-section admin-section--tools ui-section-card">
             <h3>Yedekleme</h3>
             <p>Tüm verileri JSON dosyası olarak indirin veya geri yükleyin.</p>
 

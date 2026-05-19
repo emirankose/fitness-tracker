@@ -78,8 +78,9 @@ function Profile() {
   return (
     <div className="profile-page">
       <header className="profile-page__header">
+        <span className="page-eyebrow">👤 Kişisel bilgiler</span>
         <h1>Profil</h1>
-        <p>Kişisel bilgilerinizi ve hedeflerinizi yönetin.</p>
+        <p>Boy, kilo ve fitness hedefinizi kaydederek takibinizi kişiselleştirin.</p>
       </header>
 
       {successMessage && (
@@ -88,7 +89,7 @@ function Profile() {
         </div>
       )}
 
-      <section className="profile-form-card" aria-labelledby="profile-form-title">
+      <section className="profile-form-card ui-section-card" aria-labelledby="profile-form-title">
         <h2 id="profile-form-title">
           {isUpdate ? 'Profili Düzenle' : 'Profil Oluştur'}
         </h2>

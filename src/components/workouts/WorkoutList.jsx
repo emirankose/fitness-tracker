@@ -13,7 +13,13 @@ function formatDate(dateStr) {
 function WorkoutList({ workouts, onDelete, onEdit, editingId }) {
   if (workouts.length === 0) {
     return (
-      <p className="workout-list__empty">Henüz antrenman eklenmedi</p>
+      <div className="ui-empty workout-list__empty">
+        <span className="ui-empty__icon" aria-hidden="true">
+          🏋️
+        </span>
+        <p className="ui-empty__text">Henüz antrenman eklenmedi</p>
+        <p className="ui-empty__hint">Yukarıdaki formdan ilk antrenmanınızı kaydedin.</p>
+      </div>
     )
   }
 
@@ -45,14 +51,14 @@ function WorkoutList({ workouts, onDelete, onEdit, editingId }) {
           <div className="workout-card__actions">
             <button
               type="button"
-              className="workout-card__edit"
+              className="ui-btn-edit workout-card__edit"
               onClick={() => onEdit(workout)}
             >
               Düzenle
             </button>
             <button
               type="button"
-              className="workout-card__delete"
+              className="ui-btn-danger workout-card__delete"
               onClick={() => onDelete(workout.id, workout.exerciseName)}
             >
               Sil

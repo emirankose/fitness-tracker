@@ -14,7 +14,15 @@ function formatDate(dateStr) {
 
 function NutritionList({ meals, onDelete, onEdit, editingId }) {
   if (meals.length === 0) {
-    return <p className="nutrition-list__empty">Henüz öğün eklenmedi</p>
+    return (
+      <div className="ui-empty nutrition-list__empty">
+        <span className="ui-empty__icon" aria-hidden="true">
+          🥗
+        </span>
+        <p className="ui-empty__text">Henüz öğün eklenmedi</p>
+        <p className="ui-empty__hint">Formu doldurarak günlük beslenmenizi kaydedin.</p>
+      </div>
+    )
   }
 
   return (
@@ -47,12 +55,12 @@ function NutritionList({ meals, onDelete, onEdit, editingId }) {
             </div>
           </div>
           <div className="nutrition-card__actions">
-            <button type="button" className="nutrition-card__edit" onClick={() => onEdit(meal)}>
+            <button type="button" className="ui-btn-edit nutrition-card__edit" onClick={() => onEdit(meal)}>
               Düzenle
             </button>
             <button
               type="button"
-              className="nutrition-card__delete"
+              className="ui-btn-danger nutrition-card__delete"
               onClick={() => onDelete(meal.id, getMealLabel(meal.mealType))}
             >
               Sil

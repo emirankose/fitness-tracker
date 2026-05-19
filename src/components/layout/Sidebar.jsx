@@ -20,7 +20,7 @@ function Sidebar({ isOpen, isHidden, showBackdrop, onClose }) {
         </div>
 
         <nav className="sidebar__nav">
-          {navItems.map(({ to, label, end }) => (
+          {navItems.map(({ to, label, icon, end }) => (
             <NavLink
               key={to}
               to={to}
@@ -30,8 +30,13 @@ function Sidebar({ isOpen, isHidden, showBackdrop, onClose }) {
                 `sidebar__link ${isActive ? 'sidebar__link--active' : ''}`
               }
             >
-              <span className="sidebar__link-dot" aria-hidden="true" />
+              {icon && (
+                <span className="sidebar__link-icon" aria-hidden="true">
+                  {icon}
+                </span>
+              )}
               {label}
+              <span className="sidebar__link-dot" aria-hidden="true" />
             </NavLink>
           ))}
         </nav>
